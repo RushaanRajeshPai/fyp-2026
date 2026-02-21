@@ -40,4 +40,28 @@ export interface UploadResumeResponse {
     resumeId: string;
     parsedResume: ParsedResume;
     jobs: JobResult[];
+    roadmapId?: string;
+    roadmapData?: RoadmapResponse;
+}
+
+export interface RoadmapResponse {
+    currentPosition: string;
+    targetPosition: string;
+    strategyOverview: string;
+    steps: string[];
+    skillsToDevelop: string[];
+    longTermVision: string;
+}
+
+// ─── Question Bank Types ───
+export interface QuestionsResponse {
+    questions: string[];
+}
+
+export interface AnalysisResponse {
+    clarity: number;
+    structure: number;
+    depth: number;
+    responseSummary: string;
+    expectedAnswer: string;
 }

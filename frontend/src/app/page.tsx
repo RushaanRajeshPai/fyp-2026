@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { Search, Route, HelpCircle } from "lucide-react";
 import { User } from "@/types";
 
 export default function HomePage() {
@@ -46,6 +47,28 @@ export default function HomePage() {
                 Ascend AI
               </h1>
             </div>
+          </div>
+
+          {/* ─── Center Nav Links ─── */}
+          <div className="hidden md:flex items-center gap-1">
+            <button
+              onClick={() => router.push("/find-jobs")}
+              className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+            >
+              Find Jobs
+            </button>
+            <button
+              onClick={() => router.push("/roadmap")}
+              className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+            >
+              Career Roadmap
+            </button>
+            <button
+              onClick={() => router.push("/question-bank")}
+              className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+            >
+              Question Bank
+            </button>
           </div>
 
           <div className="flex items-center gap-3">
@@ -148,7 +171,7 @@ export default function HomePage() {
         </div>
       </nav>
 
-      <section className="relative w-full min-h-screen flex items-center justify-center pt-32 pb-24 overflow-hidden">
+      <section className="relative w-full min-h-screen flex items-center justify-center pt-32 pb-0 overflow-hidden" style={{ background: 'linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%)' }}>
         {/* Background decorations */}
         <div className="absolute top-20 right-0 w-96 h-96 opacity-10">
           <div className="w-full h-full relative">
@@ -184,12 +207,14 @@ export default function HomePage() {
                 opportunities across LinkedIn and top job platforms.
               </p>
 
-              <button
-                onClick={() => router.push("/find-jobs")}
-                className="btn-cta px-10 py-4 text-base animate-pulse-glow mb-4"
-              >
-                Find Jobs
-              </button>
+              <div className="flex items-center gap-4 mb-4">
+                <button
+                  onClick={() => router.push("/find-jobs")}
+                  className="btn-cta px-10 py-4 text-base animate-pulse-glow"
+                >
+                  Find Jobs
+                </button>
+              </div>
 
               <div className="flex items-center gap-6 text-sm text-slate-400 mt-2">
                 <div className="flex items-center gap-2">
@@ -234,6 +259,135 @@ export default function HomePage() {
                   className="w-full h-auto object-contain drop-shadow-2xl"
                   priority
                 />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ─── White Fade at bottom ─── */}
+        <div
+          className="absolute bottom-0 left-0 right-0 z-20 pointer-events-none"
+          style={{
+            height: "140px",
+            background: "linear-gradient(to bottom, rgba(241,245,249,0) 0%, rgba(255,255,255,0.6) 40%, rgba(255,255,255,1) 100%)",
+          }}
+        />
+      </section>
+
+      {/* ─── Features Section ─── */}
+      <section className="relative w-full pt-8 pb-24 bg-white">
+        <div className="w-full max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
+          {/* Section Header */}
+          <div className="text-center mb-16 animate-fade-in-up">
+            <p className="inline-block text-xs sm:text-sm font-semibold text-blue-600 border border-blue-200 bg-blue-50 rounded-full px-4 py-1.5 tracking-wide uppercase mb-4">
+              Our Features
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-800 mb-4">
+              Everything you need to <span className="text-blue-600">land your dream job</span>
+            </h2>
+            <p className="text-base text-slate-500 max-w-2xl mx-auto">
+              From AI-powered job matching to personalized roadmaps and interview prep — we&apos;ve got you covered.
+            </p>
+          </div>
+
+          {/* Feature Cards */}
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Feature 1 — Find Jobs */}
+            <div className="feature-card group relative bg-white border border-slate-200 rounded-2xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-100/50 hover:border-blue-200 hover:-translate-y-2">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative z-10">
+                {/* Icon */}
+                <div className="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center mb-5">
+                  <Search className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-800 mb-3">AI Job Finder</h3>
+                <p className="text-sm text-slate-500 leading-relaxed mb-6">
+                  Upload your resume and let AI find the perfect job matches across LinkedIn and top platforms — tailored just for you.
+                </p>
+
+                {/* Screenshot */}
+                <div className="w-full h-44 rounded-xl bg-slate-100 border border-slate-200 mb-6 overflow-hidden">
+                  <Image
+                    src="/findJobs.png"
+                    alt="Find Jobs feature screenshot"
+                    width={400}
+                    height={176}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                <button
+                  onClick={() => router.push("/find-jobs")}
+                  className="w-full py-3 rounded-xl text-sm font-semibold text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer"
+                >
+                  Get Started →
+                </button>
+              </div>
+            </div>
+
+            {/* Feature 2 — Career Roadmap */}
+            <div className="feature-card group relative bg-white border border-slate-200 rounded-2xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-violet-100/50 hover:border-violet-200 hover:-translate-y-2">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-violet-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative z-10">
+                {/* Icon */}
+                <div className="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center mb-5">
+                  <Route className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-800 mb-3">Career Roadmap</h3>
+                <p className="text-sm text-slate-500 leading-relaxed mb-6">
+                  Get a personalized learning path powered by AI. Know exactly what skills to learn and in what order to grow your career.
+                </p>
+
+                {/* Screenshot */}
+                <div className="w-full h-44 rounded-xl bg-slate-100 border border-slate-200 mb-6 overflow-hidden">
+                  <Image
+                    src="/roadmap.png"
+                    alt="Career Roadmap feature screenshot"
+                    width={400}
+                    height={176}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                <button
+                  onClick={() => router.push("/roadmap")}
+                  className="w-full py-3 rounded-xl text-sm font-semibold text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer"
+                >
+                  Get Started →
+                </button>
+              </div>
+            </div>
+
+            {/* Feature 3 — Question Bank */}
+            <div className="feature-card group relative bg-white border border-slate-200 rounded-2xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-rose-100/50 hover:border-rose-200 hover:-translate-y-2">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-rose-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative z-10">
+                {/* Icon */}
+                <div className="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center mb-5">
+                  <HelpCircle className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-800 mb-3">Question Bank</h3>
+                <p className="text-sm text-slate-500 leading-relaxed mb-6">
+                  Practice interview questions generated from your resume or job role. Get AI feedback on clarity, structure, and depth.
+                </p>
+
+                {/* Screenshot */}
+                <div className="w-full h-44 rounded-xl bg-slate-100 border border-slate-200 mb-6 overflow-hidden">
+                  <Image
+                    src="/qb.png"
+                    alt="Question Bank feature screenshot"
+                    width={400}
+                    height={176}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                <button
+                  onClick={() => router.push("/question-bank")}
+                  className="w-full py-3 rounded-xl text-sm font-semibold text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer"
+                >
+                  Get Started →
+                </button>
               </div>
             </div>
           </div>

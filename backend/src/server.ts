@@ -6,6 +6,8 @@ import path from "path";
 import fs from "fs";
 import authRoutes from "./routes/auth.routes";
 import jobRoutes from "./routes/job.routes";
+import roadmapRoutes from "./routes/roadmap.routes";
+import questionBankRoutes from "./routes/questionBank.routes";
 
 dotenv.config();
 
@@ -31,6 +33,8 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
+app.use("/api/roadmap", roadmapRoutes);
+app.use("/api/question-bank", questionBankRoutes);
 
 // Health check
 app.get("/api/health", (_req, res) => {

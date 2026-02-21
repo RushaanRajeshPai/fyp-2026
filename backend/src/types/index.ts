@@ -68,3 +68,13 @@ export interface ApiResponse<T = unknown> {
     message: string;
     data?: T;
 }
+
+// ─── Roadmap Response Types ───
+export interface RoadmapResponse {
+    currentPosition: string;
+    targetPosition: string;
+    strategyOverview: string;
+    steps: string[];
+    skillsToDevelop: string[];
+    longTermVision: string;
+}

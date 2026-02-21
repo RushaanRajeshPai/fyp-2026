@@ -186,6 +186,28 @@ export default function FindJobsPage() {
                         </div>
                     </div>
 
+                    {/* ─── Center Nav Links ─── */}
+                    <div className="hidden md:flex items-center gap-1">
+                        <button
+                            onClick={() => router.push("/find-jobs")}
+                            className="px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg transition-colors"
+                        >
+                            Find Jobs
+                        </button>
+                        <button
+                            onClick={() => router.push("/roadmap")}
+                            className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                        >
+                            Career Roadmap
+                        </button>
+                        <button
+                            onClick={() => router.push("/question-bank")}
+                            className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                        >
+                            Question Bank
+                        </button>
+                    </div>
+
                     <div className="flex items-center gap-3">
                         {user ? (
                             <div className="relative">
