@@ -97,6 +97,43 @@ Parse the resume thoroughly and extract ALL relevant information.`;
     }
 };
 
+// ─── Geocode Location via Nominatim (OpenStreetMap) ───
+const geocodeLocation = async (
+    location: string
+): Promise<{ lat: number; lon: number } | null> => {
+    if (!location || !location.trim()) return null;
+
+    try {
+        const response = await axios.get(
+            "https://nominatim.openstreetmap.org/search",
+            {
+                params: {
+                    q: location,
+                    format: "json",
+                    limit: 1,
+                },
+                headers: {
+                    "User-Agent": "AscendAI/1.0",
+                },
+            }
+        );
+
+        if (response.data && response.data.length > 0) {
+            return {
+                lat: parseFloat(response.data[0].lat),
+                lon: parseFloat(response.data[0].lon),
+            };
+        }
+        return null;
+    } catch (error) {
+        console.error("Geocoding error for:", location, error);
+        return null;
+    }
+};
+
+// Small delay helper to respect Nominatim rate limits (1 req/sec)
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 // ─── Fetch Jobs via RapidAPI (JSearch) ───
 const fetchJobsFromAPI = async (
     parsedResume: ParsedResume
@@ -127,7 +164,7 @@ const fetchJobsFromAPI = async (
         );
 
         if (response.data && response.data.data) {
-            return response.data.data.map(
+            const jobs: JobResult[] = response.data.data.map(
                 (job: {
                     job_title?: string;
                     employer_name?: string;
@@ -137,6 +174,8 @@ const fetchJobsFromAPI = async (
                     job_state?: string;
                     job_country?: string;
                     job_posted_at_datetime_utc?: string;
+                    job_latitude?: number;
+                    job_longitude?: number;
                 }) => ({
                     jobTitle: job.job_title || "Unknown Title",
                     companyName: job.employer_name || "Unknown Company",
@@ -146,8 +185,41 @@ const fetchJobsFromAPI = async (
                     applicationUrl: job.job_apply_link || "#",
                     location: `${job.job_city || ""} ${job.job_state || ""} ${job.job_country || ""}`.trim(),
                     datePosted: job.job_posted_at_datetime_utc || "",
+                    latitude: job.job_latitude || undefined,
+                    longitude: job.job_longitude || undefined,
                 })
             );
+
+            // Geocode jobs that are missing coordinates
+            const geocodeCache: Record<string, { lat: number; lon: number } | null> = {};
+
+            for (const job of jobs) {
+                if (job.latitude && job.longitude) continue;
+                if (!job.location) continue;
+
+                // Use cached result if we've already geocoded this location
+                if (geocodeCache[job.location] !== undefined) {
+                    const cached = geocodeCache[job.location];
+                    if (cached) {
+                        job.latitude = cached.lat;
+                        job.longitude = cached.lon;
+                    }
+                    continue;
+                }
+
+                // Geocode and cache the result
+                const coords = await geocodeLocation(job.location);
+                geocodeCache[job.location] = coords;
+                if (coords) {
+                    job.latitude = coords.lat;
+                    job.longitude = coords.lon;
+                }
+
+                // Respect Nominatim rate limit
+                await delay(1000);
+            }
+
+            return jobs;
         }
 
         return [];

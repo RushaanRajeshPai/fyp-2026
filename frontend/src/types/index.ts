@@ -18,6 +18,8 @@ export interface JobResult {
     applicationUrl: string;
     location?: string;
     datePosted?: string;
+    latitude?: number;
+    longitude?: number;
 }
 
 export interface ShortlistedJob {

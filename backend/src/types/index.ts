@@ -60,6 +60,8 @@ export interface JobResult {
     applicationUrl: string;
     location?: string;
     datePosted?: string;
+    latitude?: number;
+    longitude?: number;
 }
 
 // ─── API Response Types ───

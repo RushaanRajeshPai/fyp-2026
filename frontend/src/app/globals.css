@@ -345,3 +345,25 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* ─── Leaflet Map Popup Overrides ─── */
+.job-map-popup .leaflet-popup-content-wrapper {
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+  padding: 0;
+  font-family: 'Sora', sans-serif;
+}
+
+.job-map-popup .leaflet-popup-content {
+  margin: 12px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.job-map-popup .leaflet-popup-tip {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.leaflet-container {
+  font-family: 'Sora', sans-serif;
+}
