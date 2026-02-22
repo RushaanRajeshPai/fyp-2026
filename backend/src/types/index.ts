@@ -72,13 +72,18 @@ export interface ApiResponse<T = unknown> {
 }
 
 // ─── Roadmap Response Types ───
+export interface ActionStep {
+    title: string;
+    subSteps: string[];
+}
+
 export interface RoadmapResponse {
     currentPosition: string;
     targetPosition: string;
     strategyOverview: string;
-    steps: string[];
+    steps: ActionStep[];
     skillsToDevelop: string[];
-    longTermVision: string;
+    longTermVision: string[];
 }
 
 // ─── ATS Score Response Types ───

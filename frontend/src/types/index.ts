@@ -46,13 +46,18 @@ export interface UploadResumeResponse {
     roadmapData?: RoadmapResponse;
 }
 
+export interface ActionStep {
+    title: string;
+    subSteps: string[];
+}
+
 export interface RoadmapResponse {
     currentPosition: string;
     targetPosition: string;
     strategyOverview: string;
-    steps: string[];
+    steps: ActionStep[];
     skillsToDevelop: string[];
-    longTermVision: string;
+    longTermVision: string[];
 }
 
 // ─── Question Bank Types ───

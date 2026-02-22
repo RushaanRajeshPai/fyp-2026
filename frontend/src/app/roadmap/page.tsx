@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { RoadmapResponse, ApiResponse } from "@/types";
+import { RoadmapResponse, ApiResponse, ActionStep } from "@/types";
 import Navbar from "@/components/Navbar";
 import jsPDF from "jspdf";
 
@@ -141,13 +141,25 @@ export default function RoadmapPage() {
         pdf.text("The 5-Step Action Plan", margin, y);
         y += 8;
 
-        roadmap.steps.forEach((step: string, index: number) => {
-            const stepLines = pdf.splitTextToSize(`${index + 1}. ${step}`, contentWidth - 5);
-            addPageIfNeeded(stepLines.length * 5 + 6);
-            pdf.setFontSize(10);
-            pdf.setFont("helvetica", "normal");
-            pdf.text(stepLines, margin, y);
-            y += stepLines.length * 5 + 4;
+        roadmap.steps.forEach((step: ActionStep, index: number) => {
+            const titleLines = pdf.splitTextToSize(`${index + 1}. ${step.title}`, contentWidth - 5);
+            addPageIfNeeded(titleLines.length * 5 + 6 + (step.subSteps?.length || 0) * 10);
+            pdf.setFontSize(11);
+            pdf.setFont("helvetica", "bold");
+            pdf.text(titleLines, margin, y);
+            y += titleLines.length * 5 + 3;
+
+            if (step.subSteps) {
+                pdf.setFontSize(9);
+                pdf.setFont("helvetica", "normal");
+                step.subSteps.forEach((sub: string) => {
+                    const subLines = pdf.splitTextToSize(`  • ${sub}`, contentWidth - 10);
+                    addPageIfNeeded(subLines.length * 5 + 2);
+                    pdf.text(subLines, margin + 5, y);
+                    y += subLines.length * 5 + 2;
+                });
+            }
+            y += 4;
         });
         y += 6;
 
@@ -176,12 +188,15 @@ export default function RoadmapPage() {
         y += 7;
         pdf.setFontSize(10);
         pdf.setFont("helvetica", "normal");
-        const visionLines = pdf.splitTextToSize(roadmap.longTermVision, contentWidth);
-        for (const line of visionLines) {
-            addPageIfNeeded(6);
-            pdf.text(line, margin, y);
-            y += 5;
-        }
+        roadmap.longTermVision.forEach((item: string) => {
+            const itemLines = pdf.splitTextToSize(`• ${item}`, contentWidth - 5);
+            for (const line of itemLines) {
+                addPageIfNeeded(6);
+                pdf.text(line, margin, y);
+                y += 5;
+            }
+            y += 2;
+        });
 
         pdf.save("Career_Roadmap.pdf");
     };
@@ -334,16 +349,32 @@ export default function RoadmapPage() {
                             <div className="mb-12">
                                 <h3 className="text-2xl font-bold text-slate-800 mb-8 pl-4 border-l-4 border-blue-600">The 5-Step Action Plan</h3>
                                 <div className="space-y-6">
-                                    {roadmap.steps.map((step: string, index: number) => (
-                                        <div key={index} className="flex bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
-                                            <div className="flex-shrink-0 mr-6">
-                                                <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold text-xl">
-                                                    {index + 1}
+                                    {roadmap.steps.map((step: ActionStep, index: number) => (
+                                        <div key={index} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                                            <div className="flex items-start">
+                                                <div className="flex-shrink-0 mr-5">
+                                                    <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold text-xl">
+                                                        {index + 1}
+                                                    </div>
+                                                </div>
+                                                <div className="flex flex-col justify-center pt-2">
+                                                    <p className="text-lg text-slate-800 font-semibold">{step.title}</p>
                                                 </div>
                                             </div>
-                                            <div className="flex flex-col justify-center">
-                                                <p className="text-lg text-slate-700 font-medium">{step}</p>
-                                            </div>
+                                            {step.subSteps && step.subSteps.length > 0 && (
+                                                <div className="mt-4 ml-[4.25rem] space-y-2.5">
+                                                    {step.subSteps.map((sub: string, subIdx: number) => (
+                                                        <div key={subIdx} className="flex items-start gap-3">
+                                                            <div className="flex-shrink-0 w-5 h-5 mt-0.5 rounded border-2 border-blue-300 bg-blue-50 flex items-center justify-center">
+                                                                <svg className="w-3 h-3 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
+                                                                </svg>
+                                                            </div>
+                                                            <p className="text-sm text-slate-600 leading-relaxed">{sub}</p>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
                                         </div>
                                     ))}
                                 </div>
@@ -368,13 +399,21 @@ export default function RoadmapPage() {
                                 {/* Long Range */}
                                 <div className="bg-slate-800 p-8 rounded-3xl shadow-sm text-white relative overflow-hidden">
                                     <div className="absolute top-0 right-0 w-32 h-32 bg-slate-700 blur-3xl rounded-full opacity-50 -mr-10 -mt-10" />
-                                    <h3 className="text-xl font-bold mb-4 flex items-center gap-2 relative z-10 text-blue-300">
+                                    <h3 className="text-xl font-bold mb-2 flex items-center gap-2 relative z-10 text-blue-300">
                                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                         Long Term Vision
                                     </h3>
-                                    <p className="text-slate-300 leading-relaxed relative z-10">
-                                        {roadmap.longTermVision}
-                                    </p>
+                                    <p className="text-xs text-slate-400 mb-4 relative z-10 uppercase tracking-wider font-medium">After achieving your target goal</p>
+                                    <ul className="space-y-3 relative z-10">
+                                        {roadmap.longTermVision.map((item: string, idx: number) => (
+                                            <li key={idx} className="flex items-start gap-3">
+                                                <svg className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                                </svg>
+                                                <span className="text-slate-300 leading-relaxed text-sm">{item}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
                                 </div>
                             </div>
                         </div>

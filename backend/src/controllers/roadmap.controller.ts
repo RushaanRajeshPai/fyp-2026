@@ -81,12 +81,38 @@ Return ONLY valid JSON with no markdown formatting, no code blocks, no extra tex
   "currentPosition": "The candidate's current position fetched from the resume's latest experience section",
   "targetPosition": "A summarized sentence of the target industry plus additional goals",
   "strategyOverview": "A 1 paragraph overview of the strategy to reach the target",
-  "steps": ["Step 1 description", "Step 2 description", "Step 3 description", "Step 4 description", "Step 5 description"],
+  "steps": [
+    {
+      "title": "Step 1 main action title",
+      "subSteps": ["Specific actionable sub-step 1a", "Specific actionable sub-step 1b", "Specific actionable sub-step 1c"]
+    },
+    {
+      "title": "Step 2 main action title",
+      "subSteps": ["Specific actionable sub-step 2a", "Specific actionable sub-step 2b", "Specific actionable sub-step 2c"]
+    },
+    {
+      "title": "Step 3 main action title",
+      "subSteps": ["Specific actionable sub-step 3a", "Specific actionable sub-step 3b", "Specific actionable sub-step 3c"]
+    },
+    {
+      "title": "Step 4 main action title",
+      "subSteps": ["Specific actionable sub-step 4a", "Specific actionable sub-step 4b", "Specific actionable sub-step 4c"]
+    },
+    {
+      "title": "Step 5 main action title",
+      "subSteps": ["Specific actionable sub-step 5a", "Specific actionable sub-step 5b", "Specific actionable sub-step 5c"]
+    }
+  ],
   "skillsToDevelop": ["Skill 1", "Skill 2", "Skill 3"],
-  "longTermVision": "A brief description of the candidate's long term vision post the target"
+  "longTermVision": ["After achieving the target goal, do X to solidify career", "Do Y to expand your domain influence", "Do Z to future-proof your career"]
 }
 
-Ensure exactly 5 steps are provided. Be specific and actionable based on the provided resume and goals.`;
+IMPORTANT INSTRUCTIONS:
+- Ensure exactly 5 steps are provided with 3-4 specific, actionable sub-steps each.
+- Each step title should be a concise action-oriented description.
+- Each sub-step should be a concrete, executable action (e.g. "Enroll in AWS Solutions Architect certification course" not just "Learn cloud").
+- For longTermVision, provide 3-5 bullet points describing what the candidate should do AFTER they have achieved their target goal within the selected timeframe, to further solidify and advance their career. Focus on career consolidation, thought leadership, mentorship, specialized expertise, and building lasting professional impact.
+- Be specific and actionable based on the provided resume and goals.`;
 
         const response = await model.invoke([
             new HumanMessage({
