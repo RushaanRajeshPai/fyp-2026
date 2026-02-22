@@ -26,7 +26,8 @@ function PracticeContent() {
         setAnalysis(null);
 
         try {
-            const res = await fetch("http://localhost:5000/api/question-bank/analyze", {
+            const API_URL = process.env.NEXT_PUBLIC_API_URL;
+            const res = await fetch(`${API_URL}/question-bank/analyze`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ question, response: userResponse }),

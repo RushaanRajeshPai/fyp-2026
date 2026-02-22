@@ -56,7 +56,8 @@ export default function QuestionBankPage() {
         formData.append("resume", resumeFile);
 
         try {
-            const res = await fetch("http://localhost:5000/api/question-bank/generate-from-resume", {
+            const API_URL = process.env.NEXT_PUBLIC_API_URL;
+            const res = await fetch(`${API_URL}/question-bank/generate-from-resume`, {
                 method: "POST",
                 body: formData,
             });
@@ -90,7 +91,8 @@ export default function QuestionBankPage() {
         setQuestions([]);
 
         try {
-            const res = await fetch("http://localhost:5000/api/question-bank/generate-from-role", {
+            const API_URL = process.env.NEXT_PUBLIC_API_URL;
+            const res = await fetch(`${API_URL}/question-bank/generate-from-role`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ jobRole, experience }),

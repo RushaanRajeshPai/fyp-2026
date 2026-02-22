@@ -45,7 +45,8 @@ export default function RoadmapPage() {
         formData.append("additionalGoals", additionalGoals);
 
         try {
-            const res = await fetch("http://localhost:5000/api/roadmap/generate", {
+            const API_URL = process.env.NEXT_PUBLIC_API_URL;
+            const res = await fetch(`${API_URL}/roadmap/generate`, {
                 method: "POST",
                 body: formData,
             });
