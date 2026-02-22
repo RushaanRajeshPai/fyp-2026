@@ -191,8 +191,7 @@ export default function HomePage() {
           </div>
         </div>
         <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-blue-50 rounded-full blur-3xl opacity-60" />
-
-        <div className="w-full max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 relative z-10">
+        <div className="w-full max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 relative z-10 -top-12">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-32 items-center">
             {/* Left Side — Text & CTA */}
             <div className="animate-fade-in-up">
@@ -266,16 +265,16 @@ export default function HomePage() {
 
         {/* ─── White Fade at bottom ─── */}
         <div
-          className="absolute bottom-0 left-0 right-0 z-20 pointer-events-none"
+          className="absolute bottom-0 left-0 right-0 z-20 pointer-events-none hidden lg:block"
           style={{
-            height: "140px",
+            height: "200px",
             background: "linear-gradient(to bottom, rgba(241,245,249,0) 0%, rgba(255,255,255,0.6) 40%, rgba(255,255,255,1) 100%)",
           }}
         />
       </section>
 
       {/* ─── Features Section ─── */}
-      <section className="relative w-full pt-8 pb-24 bg-white">
+      <section className="relative w-full pb-24 bg-white">
         <div className="w-full max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
           {/* Section Header */}
           <div className="text-center mb-16 animate-fade-in-up">

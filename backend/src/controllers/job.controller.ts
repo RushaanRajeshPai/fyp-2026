@@ -190,10 +190,19 @@ const fetchJobsFromAPI = async (
                 })
             );
 
+            // Deduplicate jobs by jobTitle + companyName
+            const seen = new Set<string>();
+            const uniqueJobs = jobs.filter((job) => {
+                const key = `${job.jobTitle.toLowerCase()}-${job.companyName.toLowerCase()}`;
+                if (seen.has(key)) return false;
+                seen.add(key);
+                return true;
+            });
+
             // Geocode jobs that are missing coordinates
             const geocodeCache: Record<string, { lat: number; lon: number } | null> = {};
 
-            for (const job of jobs) {
+            for (const job of uniqueJobs) {
                 if (job.latitude && job.longitude) continue;
                 if (!job.location) continue;
 
@@ -219,7 +228,7 @@ const fetchJobsFromAPI = async (
                 await delay(1000);
             }
 
-            return jobs;
+            return uniqueJobs;
         }
 
         return [];
