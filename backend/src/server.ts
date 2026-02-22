@@ -8,6 +8,7 @@ import authRoutes from "./routes/auth.routes";
 import jobRoutes from "./routes/job.routes";
 import roadmapRoutes from "./routes/roadmap.routes";
 import questionBankRoutes from "./routes/questionBank.routes";
+import atsScoreRoutes from "./routes/atsScore.routes";
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/roadmap", roadmapRoutes);
 app.use("/api/question-bank", questionBankRoutes);
+app.use("/api/ats-score", atsScoreRoutes);
 
 // Health check
 app.get("/api/health", (_req, res) => {

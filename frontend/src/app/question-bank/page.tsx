@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { ApiResponse, QuestionsResponse } from "@/types";
+import Navbar from "@/components/Navbar";
 
 const JOB_ROLES = [
     "Software Engineer",
@@ -116,43 +117,7 @@ export default function QuestionBankPage() {
 
     return (
         <div className="min-h-screen bg-white">
-            {/* ─── Navbar ─── */}
-            <nav className="fixed top-4 left-6 right-6 z-50 bg-gray-50 rounded-2xl shadow-sm">
-                <div className="px-8 py-3 flex items-center justify-between">
-                    <div
-                        className="flex items-center gap-3 cursor-pointer"
-                        onClick={() => router.push("/")}
-                    >
-                        <div>
-                            <h1 className="text-xl font-bold text-slate-800">Ascend AI</h1>
-                        </div>
-                    </div>
-
-                    {/* ─── Center Nav Links ─── */}
-                    <div className="hidden md:flex items-center gap-1">
-                        <button
-                            onClick={() => router.push("/find-jobs")}
-                            className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                        >
-                            Find Jobs
-                        </button>
-                        <button
-                            onClick={() => router.push("/roadmap")}
-                            className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                        >
-                            Career Roadmap
-                        </button>
-                        <button
-                            onClick={() => router.push("/question-bank")}
-                            className="px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg transition-colors"
-                        >
-                            Question Bank
-                        </button>
-                    </div>
-
-                    <div className="w-[120px]"></div>
-                </div>
-            </nav>
+            <Navbar activePage="question-bank" />
 
             {/* ─── Main Content ─── */}
             <main className="pt-32 pb-24 px-6 sm:px-12 lg:px-16 max-w-5xl mx-auto">

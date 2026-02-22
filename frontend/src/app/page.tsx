@@ -1,175 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Search, Route, HelpCircle } from "lucide-react";
-import { User } from "@/types";
+import { Search, Route, HelpCircle, FileText } from "lucide-react";
+import Navbar from "@/components/Navbar";
 
 export default function HomePage() {
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
-  const [showDropdown, setShowDropdown] = useState(false);
-
-  useEffect(() => {
-    const stored = localStorage.getItem("jobfinder_user");
-    if (stored) {
-      setUser(JSON.parse(stored));
-    }
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("jobfinder_user");
-    setUser(null);
-    setShowDropdown(false);
-  };
-
-  const getInitials = (name: string) => {
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
-  };
 
   return (
     <div className="min-h-screen bg-white">
-      {/* ─── Navbar ─── */}
-      <nav className="fixed top-4 left-6 right-6 z-50 bg-gray-50 rounded-2xl shadow-sm">
-        <div className="px-8 py-3 flex items-center justify-between">
-          <div
-            className="flex items-center gap-3 cursor-pointer"
-            onClick={() => router.push("/")}
-          >
-            <div>
-              <h1 className="text-xl font-bold text-slate-800">
-                Ascend AI
-              </h1>
-            </div>
-          </div>
-
-          {/* ─── Center Nav Links ─── */}
-          <div className="hidden md:flex items-center gap-1">
-            <button
-              onClick={() => router.push("/find-jobs")}
-              className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-            >
-              Find Jobs
-            </button>
-            <button
-              onClick={() => router.push("/roadmap")}
-              className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-            >
-              Career Roadmap
-            </button>
-            <button
-              onClick={() => router.push("/question-bank")}
-              className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-            >
-              Question Bank
-            </button>
-          </div>
-
-          <div className="flex items-center gap-3">
-            {user ? (
-              <div className="relative">
-                <button
-                  onClick={() => setShowDropdown(!showDropdown)}
-                  className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-blue-50 transition-colors"
-                >
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center text-white text-sm font-bold">
-                    {getInitials(user.name)}
-                  </div>
-                  <span className="hidden sm:block text-sm font-semibold text-slate-700">
-                    {user.name}
-                  </span>
-                  <svg
-                    className={`w-4 h-4 text-slate-400 transition-transform ${showDropdown ? "rotate-180" : ""}`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </button>
-
-                {showDropdown && (
-                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-slate-100 py-2 animate-slide-down">
-                    <div className="px-4 py-3 border-b border-slate-100">
-                      <p className="text-sm font-semibold text-slate-800">
-                        {user.name}
-                      </p>
-                      <p className="text-xs text-slate-400">{user.email}</p>
-                    </div>
-                    <button
-                      onClick={() => {
-                        router.push("/shortlisted");
-                        setShowDropdown(false);
-                      }}
-                      className="w-full text-left px-4 py-2.5 text-sm text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors flex items-center gap-2"
-                    >
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                        />
-                      </svg>
-                      Shortlisted Jobs
-                    </button>
-                    <button
-                      onClick={handleLogout}
-                      className="w-full text-left px-4 py-2.5 text-sm text-rose-500 hover:bg-rose-50 transition-colors flex items-center gap-2"
-                    >
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                        />
-                      </svg>
-                      Logout
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <>
-                <button
-                  onClick={() => router.push("/signup")}
-                  className="btn-cta text-sm px-5 py-2.5"
-                >
-                  Register
-                </button>
-                <button
-                  onClick={() => router.push("/login")}
-                  className="btn-outline text-sm px-5 py-2.5"
-                >
-                  Login
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-      </nav>
+      <Navbar activePage="home" />
 
       <section className="relative w-full min-h-screen flex items-center justify-center pt-32 pb-0 overflow-hidden" style={{ background: 'linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%)' }}>
         {/* Background decorations */}
@@ -290,31 +131,19 @@ export default function HomePage() {
           </div>
 
           {/* Feature Cards */}
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
             {/* Feature 1 — Find Jobs */}
             <div className="feature-card group relative bg-white border border-slate-200 rounded-2xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-100/50 hover:border-blue-200 hover:-translate-y-2">
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="relative z-10">
+              <div className="relative z-10 text-center">
                 {/* Icon */}
-                <div className="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center mb-5">
+                <div className="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center mb-5 mx-auto">
                   <Search className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-800 mb-3">AI Job Finder</h3>
+                <h3 className="text-xl font-bold text-slate-800 mb-3">Job Finder</h3>
                 <p className="text-sm text-slate-500 leading-relaxed mb-6">
-                  Upload your resume and let AI find the perfect job matches across LinkedIn and top platforms — tailored just for you.
+                  Upload your resume and let AI find the perfect job matches across platforms.
                 </p>
-
-                {/* Screenshot */}
-                <div className="w-full h-44 rounded-xl bg-slate-100 border border-slate-200 mb-6 overflow-hidden">
-                  <Image
-                    src="/findJobs.png"
-                    alt="Find Jobs feature screenshot"
-                    width={400}
-                    height={176}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-
                 <button
                   onClick={() => router.push("/find-jobs")}
                   className="w-full py-3 rounded-xl text-sm font-semibold text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer"
@@ -325,29 +154,17 @@ export default function HomePage() {
             </div>
 
             {/* Feature 2 — Career Roadmap */}
-            <div className="feature-card group relative bg-white border border-slate-200 rounded-2xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-violet-100/50 hover:border-violet-200 hover:-translate-y-2">
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-violet-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="relative z-10">
+            <div className="feature-card group relative bg-white border border-slate-200 rounded-2xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-100/50 hover:border-blue-200 hover:-translate-y-2">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative z-10 text-center">
                 {/* Icon */}
-                <div className="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center mb-5">
+                <div className="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center mb-5 mx-auto">
                   <Route className="w-6 h-6 text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-800 mb-3">Career Roadmap</h3>
                 <p className="text-sm text-slate-500 leading-relaxed mb-6">
                   Get a personalized learning path powered by AI. Know exactly what skills to learn and in what order to grow your career.
                 </p>
-
-                {/* Screenshot */}
-                <div className="w-full h-44 rounded-xl bg-slate-100 border border-slate-200 mb-6 overflow-hidden">
-                  <Image
-                    src="/roadmap.png"
-                    alt="Career Roadmap feature screenshot"
-                    width={400}
-                    height={176}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-
                 <button
                   onClick={() => router.push("/roadmap")}
                   className="w-full py-3 rounded-xl text-sm font-semibold text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer"
@@ -358,31 +175,40 @@ export default function HomePage() {
             </div>
 
             {/* Feature 3 — Question Bank */}
-            <div className="feature-card group relative bg-white border border-slate-200 rounded-2xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-rose-100/50 hover:border-rose-200 hover:-translate-y-2">
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-rose-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="relative z-10">
+            <div className="feature-card group relative bg-white border border-slate-200 rounded-2xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-100/50 hover:border-blue-200 hover:-translate-y-2">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative z-10 text-center">
                 {/* Icon */}
-                <div className="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center mb-5">
+                <div className="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center mb-5 mx-auto">
                   <HelpCircle className="w-6 h-6 text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-800 mb-3">Question Bank</h3>
                 <p className="text-sm text-slate-500 leading-relaxed mb-6">
                   Practice interview questions generated from your resume or job role. Get AI feedback on clarity, structure, and depth.
                 </p>
-
-                {/* Screenshot */}
-                <div className="w-full h-44 rounded-xl bg-slate-100 border border-slate-200 mb-6 overflow-hidden">
-                  <Image
-                    src="/qb.png"
-                    alt="Question Bank feature screenshot"
-                    width={400}
-                    height={176}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-
                 <button
                   onClick={() => router.push("/question-bank")}
+                  className="w-full py-3 rounded-xl text-sm font-semibold text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer"
+                >
+                  Get Started →
+                </button>
+              </div>
+            </div>
+
+            {/* Feature 4 — ATS Score */}
+            <div className="feature-card group relative bg-white border border-slate-200 rounded-2xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-100/50 hover:border-blue-200 hover:-translate-y-2">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative z-10 text-center">
+                {/* Icon */}
+                <div className="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center mb-5 mx-auto">
+                  <FileText className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-800 mb-3">ATS Score</h3>
+                <p className="text-sm text-slate-500 leading-relaxed mb-6">
+                  Upload your resume and get an instant ATS compatibility score with detailed feedback on formatting, content, and optimization.
+                </p>
+                <button
+                  onClick={() => router.push("/ats-score")}
                   className="w-full py-3 rounded-xl text-sm font-semibold text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer"
                 >
                   Get Started →

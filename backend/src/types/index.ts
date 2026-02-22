@@ -80,3 +80,23 @@ export interface RoadmapResponse {
     skillsToDevelop: string[];
     longTermVision: string;
 }
+
+// ─── ATS Score Response Types ───
+export interface ATSScoreResponse {
+    overallScore: number;
+    sectionScores: {
+        contentSections: number;
+        grammarLanguage: number;
+        formattingStructure: number;
+        atsOptimization: number;
+        pageLength: number;
+        linksContactInfo: number;
+    };
+    doneRight: string[];
+    improvements: string[];
+    summary: string;
+    detectedSections: string[];
+    missingSections: string[];
+    keywordsFound: string[];
+    pageCount: number;
+}

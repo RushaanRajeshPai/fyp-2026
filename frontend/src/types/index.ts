@@ -67,3 +67,24 @@ export interface AnalysisResponse {
     responseSummary: string;
     expectedAnswer: string;
 }
+
+// ─── ATS Score Types ───
+export interface ATSScoreResponse {
+    overallScore: number;
+    sectionScores: {
+        contentSections: number;
+        grammarLanguage: number;
+        formattingStructure: number;
+        atsOptimization: number;
+        pageLength: number;
+        linksContactInfo: number;
+    };
+    doneRight: string[];
+    improvements: string[];
+    summary: string;
+    detectedSections: string[];
+    missingSections: string[];
+    keywordsFound: string[];
+    pageCount: number;
+}
+
